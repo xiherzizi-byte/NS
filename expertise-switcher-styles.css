@@ -1,0 +1,89 @@
+/* Expandable Expertise Pills in Presenter Detail Page */
+.expertise-switcher {
+    margin-top: var(--gap);
+}
+
+.expertise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.expertise-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.btn-toggle-expertise {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-toggle-expertise:hover {
+    background: rgba(82, 211, 168, 0.05);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-toggle-expertise .toggle-icon {
+    transition: transform 0.2s;
+}
+
+.btn-toggle-expertise.expanded .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.expertise-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.expertise-pill {
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font);
+    background: white;
+    border: 2px solid rgba(30, 77, 64, 0.2);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.expertise-pill:hover {
+    border-color: var(--accent);
+    background: rgba(82, 211, 168, 0.05);
+}
+
+.expertise-pill.active {
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+    color: white;
+    border-color: transparent;
+}
+
+.expertise-pill:active {
+    transform: scale(0.96);
+}
+
+.expertise-pill.hidden {
+    display: none;
+}
+
+.expertise-single {
+    margin-top: 12px;
+}

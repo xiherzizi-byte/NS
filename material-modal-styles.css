@@ -1,0 +1,93 @@
+/* Material Management Modal Styles */
+.material-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* Increased gap between form elements */
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 14px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font);
+    background: white;
+    color: var(--text-secondary);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.btn-cancel:active {
+    transform: scale(0.98);
+}
+
+/* Material Card Actions (Edit/Delete buttons) */
+.material-card-actions {
+    display: none;
+    /* Hidden by default, shown in Edit Mode */
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+body.edit-mode-active .material-card-actions {
+    display: flex;
+}
+
+.btn-edit-material,
+.btn-delete-material {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: var(--font);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-edit-material {
+    background: rgba(82, 211, 168, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(82, 211, 168, 0.3);
+}
+
+.btn-edit-material:hover {
+    background: rgba(82, 211, 168, 0.2);
+    border-color: var(--accent);
+}
+
+.btn-delete-material {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete-material:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #dc2626;
+}
+
+.btn-edit-material:active,
+.btn-delete-material:active {
+    transform: scale(0.96);
+}

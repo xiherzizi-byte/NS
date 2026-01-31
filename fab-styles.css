@@ -1,0 +1,107 @@
+/* FAB is hidden by default, shown only in Edit Mode */
+.fab {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+    border: none;
+    box-shadow: 0 4px 12px rgba(82, 211, 168, 0.4);
+    cursor: pointer;
+    display: none;
+    /* Hidden by default */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 999;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(82, 211, 168, 0.5);
+}
+
+.fab:active {
+    transform: scale(0.95);
+}
+
+.fab svg {
+    color: white;
+}
+
+body.edit-mode-active .fab {
+    display: flex !important;
+}
+
+/* Hide FAB when modal is open */
+.modal.active~.fab,
+body.edit-mode-active:has(.modal.active) .fab {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: scale(0.8) !important;
+}
+
+/* Edit Mode Toggle */
+.edit-mode-toggle-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: var(--gap) 0;
+}
+
+.edit-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.edit-mode-toggle input[type="checkbox"] {
+    width: 44px;
+    height: 24px;
+    appearance: none;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.edit-mode-toggle input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+}
+
+.edit-mode-toggle input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.edit-mode-toggle input[type="checkbox"]:checked::before {
+    left: 22px;
+}
+
+.toggle-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.edit-mode-toggle input[type="checkbox"]:checked~.toggle-label {
+    color: var(--accent);
+}
+
+/* Edit Mode Active - Show all action buttons */
+body.edit-mode-active .material-card-actions {
+    opacity: 1 !important;
+    visibility: visible !important;
+}

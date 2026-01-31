@@ -1,0 +1,32 @@
+/* Admin Only Button for Managing Materials */
+.btn-manage-materials {
+    width: 100%;
+    padding: 14px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font);
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(82, 211, 168, 0.3);
+    transition: all 0.2s;
+    margin-bottom: var(--gap-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-manage-materials:active {
+    transform: scale(0.98);
+}
+
+.btn-manage-materials:hover {
+    box-shadow: 0 6px 16px rgba(82, 211, 168, 0.4);
+}
+
+.admin-only-btn {
+    display: none;
+}
