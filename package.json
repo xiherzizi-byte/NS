@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "http-server -p 8000 -o",
-    "build": "echo 'Build complete'",
+    "build": "echo 'Static HTML - No build needed'",
     "start": "http-server -p 8000"
   },
   "repository": {
