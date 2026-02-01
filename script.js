@@ -449,7 +449,7 @@ function renderPresentersList() {
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                          </svg>
-                         ${totalMaterials} Bahasan
+                         ${totalMaterials} Arsip
                     </span>
                 </div>
             </div>
@@ -491,13 +491,13 @@ function openMaterialModal(mode, presenter, expertiseIndex, material = null, mat
     const modalDescription = document.getElementById('materialModalDescription');
 
     if (mode === 'add') {
-        modalTitle.textContent = 'Tambah Pengetahuan Baru';
-        modalDescription.textContent = `Bagikan pengetahuan baru dalam bidang "${expertise.name}"`;
+        modalTitle.textContent = 'Tambah ke Arsip';
+        modalDescription.textContent = `Arsip pengetahuan baru dalam bidang "${expertise.name}"`;
         materialForm.reset();
         document.getElementById('materialId').value = '';
     } else {
-        modalTitle.textContent = 'Edit Pengetahuan';
-        modalDescription.textContent = `Perbarui pengetahuan dalam bidang "${expertise.name}"`;
+        modalTitle.textContent = 'Edit Arsip';
+        modalDescription.textContent = `Perbarui arsip pengetahuan dalam bidang "${expertise.name}"`;
 
         // Fill form with existing data
         document.getElementById('materialId').value = material.id || '';
@@ -549,11 +549,11 @@ function saveMaterial(e) {
     if (currentMaterialMode === 'add') {
         // Add new material
         expertise.materials.unshift(formData); // Add to beginning (latest first)
-        alert('✅ Pengetahuan berhasil ditambahkan!');
+        alert('✅ Arsip Pengetahuan berhasil ditambahkan!');
     } else {
         // Edit existing material
         expertise.materials[materialIndex] = formData;
-        alert('✅ Pengetahuan berhasil diperbarui!');
+        alert('✅ Arsip Pengetahuan berhasil diperbarui!');
     }
 
     // Save to localStorage
@@ -580,7 +580,7 @@ function deleteMaterial(presenter, expertiseIndex, materialIndex, materialTitle)
     // Save to localStorage
     savePresentersData();
 
-    alert('✅ Pengetahuan berhasil dihapus!');
+    alert('✅ Arsip Pengetahuan berhasil dihapus!');
 
     // Refresh view
     renderPresenterDetailContent(presenter, expertiseIndex);
@@ -667,38 +667,75 @@ function renderPresenterDetailContent(presenter, expertiseIndex) {
             <div class="presenter-avatar-large" style="background: ${presenter.avatarColor};">${getInitial(presenter.name)}</div>
             <div>
                 <h2 class="presenter-name-large">${presenter.name}</h2>
-                <p class="presenter-materials-count">${totalMaterials} Bahasan</p>
+                <p class="presenter-materials-count">${totalMaterials} Arsip</p>
             </div>
         </div>
         
-        ${hasMultipleExpertises ? `
-            <div class="expertise-switcher">
-                <div class="expertise-header">
-                    <div class="expertise-label">Bidang Keahlian:</div>
+        <div class="expertise-switcher">
+            <div class="expertise-header">
+                <div class="expertise-label">Bidang Keahlian:</div>
+                ${hasMultipleExpertises ? `
                     <button class="btn-toggle-expertise" id="btnToggleExpertise">
                         <span class="toggle-text">Lihat Bidang Lain</span>
                         <svg class="toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </button>
-                </div>
-                <div class="expertise-pills" id="expertisePills">
-                    ${presenter.expertises.map((exp, index) => `
-                        <button 
-                            class="expertise-pill ${index === expertiseIndex ? 'active' : 'hidden'}" 
-                            data-expertise-index="${index}"
-                        >
-                            ${exp.name}
-                        </button>
-                    `).join('')}
-                </div>
+                ` : ''}
             </div>
-        ` : `
-            <div class="expertise-single">
-                <span class="presenter-role-large">${currentExpertise.name}</span>
+            <div class="expertise-pills" id="expertisePills">
+                ${presenter.expertises.map((exp, index) => `
+                    <button 
+                        class="expertise-pill ${index === expertiseIndex ? 'active' : (hasMultipleExpertises ? 'hidden' : '')}" 
+                        data-expertise-index="${index}"
+                    >
+                        ${exp.name}
+                    </button>
+                `).join('')}
+                
+                ${currentUser ? `
+                    <button class="btn-add-expertise" id="btnAddExpertise" title="Tambah Bidang Keahlian">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                ` : ''}
             </div>
-        `}
+        </div>
     `;
+
+    // Add expertise logic
+    const btnAddExpertise = document.getElementById('btnAddExpertise');
+    if (btnAddExpertise) {
+        btnAddExpertise.onclick = (e) => {
+            e.stopPropagation();
+            const newExpertiseName = prompt('Masukkan nama bidang keahlian baru (misal: Sosiologi, Sejarah, dsb):');
+
+            if (newExpertiseName && newExpertiseName.trim()) {
+                const name = newExpertiseName.trim();
+
+                // Check if already exists
+                const exists = presenter.expertises.some(exp => exp.name.toLowerCase() === name.toLowerCase());
+                if (exists) {
+                    alert('⚠️ Bidang keahlian ini sudah ada!');
+                    return;
+                }
+
+                // Add to data
+                presenter.expertises.push({
+                    name: name,
+                    materials: []
+                });
+
+                // Save and re-render
+                savePresentersData();
+                const newIdx = presenter.expertises.length - 1;
+                renderPresenterDetailContent(presenter, newIdx);
+                alert(`✅ Bidang "${name}" berhasil ditambahkan!`);
+            }
+        };
+    }
 
     // Add toggle and pill click listeners
     if (hasMultipleExpertises) {
@@ -744,6 +781,10 @@ function renderPresenterDetailContent(presenter, expertiseIndex) {
     }
 
     // Render materials for current expertise
+    if (currentExpertise.materials.length === 0) {
+        materialsList.innerHTML = `<div class="empty-state" style="padding: 40px; text-align: center; color: var(--text-light);">Belum ada arsip pengetahuan di bidang ini.</div>`;
+        return;
+    }
     materialsList.innerHTML = '';
     currentExpertise.materials.forEach((material, materialIndex) => {
         const card = document.createElement('article');
