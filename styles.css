@@ -992,8 +992,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 28px 36px;
-    /* Increased for more space */
+    padding: 0 0 20px 0;
+    /* Compact padding */
+    margin-bottom: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -1021,8 +1022,8 @@ body {
 }
 
 .modal-body {
-    padding: 40px;
-    /* Significantly increased for spacious feel */
+    padding: 0;
+    /* No extra padding needed, modal-content already has it */
 }
 
 .modal-description {

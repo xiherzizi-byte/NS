@@ -35,12 +35,14 @@ body.edit-mode-active .fab {
     display: flex !important;
 }
 
-/* Hide FAB when modal is open */
+/* Hide FAB when ANY modal is open */
 .modal.active~.fab,
+body:has(.modal.active) .fab,
 body.edit-mode-active:has(.modal.active) .fab {
     opacity: 0 !important;
     pointer-events: none !important;
     transform: scale(0.8) !important;
+    display: none !important;
 }
 
 /* Edit Mode Toggle */
