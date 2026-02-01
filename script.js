@@ -1922,6 +1922,81 @@ async function syncAllDataFromSupabase() {
 }
 
 // ==========================================
+// REALTIME SYNCHRONIZATION (Supabase)
+// ==========================================
+async function setupRealtime() {
+    const supabase = window.supabaseClient?.get();
+    if (!supabase) return;
+
+    console.log('🔔 Activating Supabase Realtime...');
+
+    // Subscribe to schedule changes
+    supabase
+        .channel('public:schedules_realtime')
+        .on('postgres_changes', { event: '*', table: 'schedules' }, payload => {
+            console.log('📢 Live Update: Schedule changed', payload);
+            syncAllDataFromSupabase(); // Re-fetch to ensure sync
+        })
+        .subscribe();
+
+    // Subscribe to material changes
+    supabase
+        .channel('public:materials_realtime')
+        .on('postgres_changes', { event: '*', table: 'materials' }, payload => {
+            console.log('📢 Live Update: Materials changed', payload);
+            syncAllDataFromSupabase();
+        })
+        .subscribe();
+}
+
+// Manual Push from Local to Cloud
+async function pushLocalDataToCloud() {
+    if (currentUser?.role !== 'admin') {
+        alert('❌ Hanya Admin yang bisa melakukan sinkronisasi paksa.');
+        return;
+    }
+
+    const supabase = window.supabaseClient?.get();
+    if (!supabase) {
+        alert('❌ Koneksi database tidak aktif.');
+        return;
+    }
+
+    try {
+        showToast('🔄 Memulai unggah data lokal ke Cloud...');
+
+        // 1. Push Schedules
+        for (const schedule of scheduleData) {
+            await supabase.from('schedules').upsert([schedule]);
+        }
+
+        // 2. Push Materials
+        for (const presenter of presentersData) {
+            if (presenter.db_id && presenter.expertises) {
+                for (const expertise of presenter.expertises) {
+                    for (const material of expertise.materials) {
+                        await supabase.from('materials').upsert([{
+                            id: String(material.id),
+                            presenter_id: presenter.db_id,
+                            title: material.title,
+                            category: material.category,
+                            date: material.date,
+                            content: material.content
+                        }]);
+                    }
+                }
+            }
+        }
+
+        alert('✅ Sinkronisasi Selesai! Semua data lokal telah berhasil diunggah ke Cloud.');
+        syncAllDataFromSupabase();
+    } catch (err) {
+        console.error('Push Local to Cloud failed:', err);
+        alert('❌ Gagal sinkronisasi: ' + err.message);
+    }
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 async function init() {
@@ -1937,6 +2012,15 @@ async function init() {
 
     // BACKGROUND SYNC: Fetch latest from Supabase
     syncAllDataFromSupabase();
+
+    // Setup REALTIME: Watch for changes
+    setupRealtime();
+
+    // Sync Button Listener
+    const btnSyncLocalToCloud = document.getElementById('btnSyncLocalToCloud');
+    if (btnSyncLocalToCloud) {
+        btnSyncLocalToCloud.addEventListener('click', pushLocalDataToCloud);
+    }
 
     // Setup material modal listeners
     const materialModal = document.getElementById('materialModal');

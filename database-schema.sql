@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS materials (
     title VARCHAR(500) NOT NULL,
     category VARCHAR(100) DEFAULT 'general',
     content TEXT,
-    date DATE DEFAULT CURRENT_DATE,
+    date VARCHAR(255) DEFAULT CURRENT_DATE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS schedules (
     title VARCHAR(500) NOT NULL,
     type VARCHAR(50) DEFAULT 'regular',
     location VARCHAR(255),
-    date DATE NOT NULL,
+    date VARCHAR(255) NOT NULL,
     time VARCHAR(50), -- Changed to VARCHAR for "Ba'da Isya"
     "order" INTEGER DEFAULT 1, -- Added for custom sorting
     status VARCHAR(20) DEFAULT 'upcoming',
