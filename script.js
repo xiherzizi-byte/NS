@@ -1088,7 +1088,7 @@ function closeScheduleModal() {
     document.body.style.overflow = '';
 }
 
-function saveSchedule(e) {
+async function saveSchedule(e) {
     if (e) e.preventDefault();
 
     if (currentUser?.role !== 'admin') {
@@ -1124,6 +1124,36 @@ function saveSchedule(e) {
             status: statusVal
         };
 
+        // Save to Supabase Database
+        const supabase = window.supabaseClient?.get();
+        if (supabase) {
+            if (currentScheduleMode === 'add') {
+                const { error } = await supabase
+                    .from('schedules')
+                    .insert([newSchedule]);
+
+                if (error) {
+                    console.error('Supabase insert error:', error);
+                    alert('⚠️ Data tersimpan di browser, tapi gagal sync ke database: ' + error.message);
+                } else {
+                    console.log('✅ Schedule saved to database');
+                }
+            } else {
+                const { error } = await supabase
+                    .from('schedules')
+                    .update(newSchedule)
+                    .eq('id', newSchedule.id);
+
+                if (error) {
+                    console.error('Supabase update error:', error);
+                    alert('⚠️ Data tersimpan di browser, tapi gagal sync ke database: ' + error.message);
+                } else {
+                    console.log('✅ Schedule updated in database');
+                }
+            }
+        }
+
+        // Update local data
         if (currentScheduleMode === 'add') {
             scheduleData.push(newSchedule);
         } else {
@@ -1159,14 +1189,14 @@ function saveSchedule(e) {
             return 0;
         });
 
-        // Persistent save
+        // Persistent save to localStorage (backup)
         localStorage.setItem('nongkrong_sehat_schedule', JSON.stringify(scheduleData));
 
         // Refresh UI
         renderSchedule();
         closeScheduleModal();
 
-        alert(currentScheduleMode === 'add' ? '✅ Jadwal berhasil ditambahkan!' : '✅ Jadwal berhasil diperbarui!');
+        alert(currentScheduleMode === 'add' ? '✅ Jadwal berhasil ditambahkan & tersimpan ke database!' : '✅ Jadwal berhasil diperbarui & tersimpan ke database!');
     } catch (err) {
         console.error('Save Schedule Error:', err);
         alert('❌ Terjadi kesalahan saat menyimpan jadwal. Mohon coba lagi.');
@@ -1194,16 +1224,34 @@ function moveSchedule(id, direction) {
     renderSchedule();
 }
 
-function deleteSchedule(id) {
+async function deleteSchedule(id) {
     if (currentUser?.role !== 'admin') {
         alert('❌ Akses ditolak! Hanya Admin yang bisa menghapus jadwal.');
         return;
     }
+
     if (confirm('Apakah Anda yakin ingin menghapus jadwal ini?')) {
+        // Delete from Supabase Database
+        const supabase = window.supabaseClient?.get();
+        if (supabase) {
+            const { error } = await supabase
+                .from('schedules')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                console.error('Supabase delete error:', error);
+                alert('⚠️ Data terhapus dari browser, tapi gagal hapus dari database: ' + error.message);
+            } else {
+                console.log('✅ Schedule deleted from database');
+            }
+        }
+
+        // Delete from local data
         scheduleData = scheduleData.filter(s => s.id !== id);
         localStorage.setItem('nongkrong_sehat_schedule', JSON.stringify(scheduleData));
         renderSchedule();
-        alert('✅ Jadwal berhasil dihapus!');
+        alert('✅ Jadwal berhasil dihapus dari database!');
     }
 }
 
