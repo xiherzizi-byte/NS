@@ -1114,7 +1114,17 @@ body {
     display: flex;
     gap: 8px;
     margin-bottom: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+}
+
+.quick-selectors::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
 }
 
 .btn-quick-time {
@@ -1127,6 +1137,8 @@ body {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .btn-quick-time.active {
@@ -1153,7 +1165,15 @@ body {
     display: flex;
     gap: 8px;
     margin-bottom: 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.time-quick-buttons::-webkit-scrollbar {
+    display: none;
 }
 
 .btn-time-preset {
@@ -1167,6 +1187,8 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .btn-time-preset:hover {
