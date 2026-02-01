@@ -1148,6 +1148,44 @@ body {
     border-color: var(--accent);
 }
 
+/* New Time Preset Buttons */
+.time-quick-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-time-preset {
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font);
+    color: var(--text-secondary);
+    background: white;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-time-preset:hover {
+    background: rgba(82, 211, 168, 0.1);
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.btn-time-preset.active {
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(82, 211, 168, 0.3);
+}
+
+.btn-time-preset:active {
+    transform: scale(0.96);
+}
+
 /* Admin Controls Group (Bottom Right) */
 .admin-controls-group {
     display: flex;

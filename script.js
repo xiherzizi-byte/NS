@@ -1738,22 +1738,6 @@ function init() {
     const scheduleDateInput = document.getElementById('scheduleDate');
     const quickTimeBtns = document.querySelectorAll('.btn-quick-time');
     const scheduleTimeInput = document.getElementById('scheduleTime');
-    const scheduleTimePicker = document.getElementById('scheduleTimePicker');
-
-    if (scheduleTimePicker && scheduleTimeInput) {
-        // Initialize Flatpickr as Time Picker for Jam
-        flatpickr(scheduleTimePicker, {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            time_24hr: true,
-            onChange: function (selectedDates, timeStr) {
-                if (timeStr) {
-                    scheduleTimeInput.value = timeStr;
-                }
-            }
-        });
-    }
 
     quickTimeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1765,6 +1749,21 @@ function init() {
             }
         });
     });
+
+    // Time Preset Buttons (New Simple Time Selection)
+    const timePresetBtns = document.querySelectorAll('.btn-time-preset');
+    if (timePresetBtns && scheduleTimeInput) {
+        timePresetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const timeValue = btn.getAttribute('data-time');
+                scheduleTimeInput.value = timeValue;
+
+                // Update active state
+                timePresetBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    }
 
     // Conditional visibility for Presentasi-only buttons
     const scheduleTypeSelect = document.getElementById('scheduleType');
