@@ -107,10 +107,13 @@ body {
 }
 
 .ns-logo-img {
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: white;
+    /* Give it a clean white base if it's not transparent */
+    padding: 2px;
 }
 
 .app-name {
@@ -812,37 +815,158 @@ body {
     }
 }
 
-/* About Cards */
+/* About & Vision-Mission Premium Styling */
 .about-content {
     display: flex;
     flex-direction: column;
-    gap: var(--gap);
+    gap: 24px;
 }
 
-.about-card {
+.about-card.main-intro {
+    background: linear-gradient(135deg, var(--white) 0%, #f0f7f4 100%);
+    border: 1px solid rgba(82, 211, 168, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card.main-intro::after {
+    content: 'NS';
+    position: absolute;
+    bottom: -20px;
+    right: -10px;
+    font-size: 120px;
+    font-weight: 900;
+    color: var(--primary);
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+.vision-mission-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+@media (min-width: 768px) {
+    .vision-mission-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.vm-item {
     background: var(--white);
-    border-radius: var(--radius);
-    padding: var(--pad-lg);
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
-.about-card h3 {
-    font-size: var(--text-lg);
+.vm-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.vm-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(82, 211, 168, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.vm-title {
+    font-size: 15px;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 12px;
-    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
-.about-card p {
+.vm-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vm-list li {
+    font-size: 13px;
     color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
-.about-card p:last-child {
-    margin-bottom: 0;
+.vm-list li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+.social-links-grid {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.social-link-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex: 1;
+    padding: 16px;
+    background: #f8faf9;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.social-link-item:hover {
+    transform: translateY(-4px);
+    background: white;
+    border-color: var(--accent);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.social-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon.whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+.social-icon.instagram {
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+}
+
+.social-icon.tiktok {
+    background: linear-gradient(135deg, #000000 0%, #25F4EE 50%, #FE2C55 100%);
+}
+
+.social-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 /* Modern Bottom Nav */
