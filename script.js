@@ -186,7 +186,7 @@ function getLatestMaterials() {
 
 const defaultScheduleData = [
     {
-        id: 1,
+        id: "1",
         date: "05 Feb 2026",
         order: 1,
         title: "Presentasi: Fiqih Ibadah Kontemporer",
@@ -196,7 +196,7 @@ const defaultScheduleData = [
         status: "upcoming"
     },
     {
-        id: 2,
+        id: "2",
         date: "12 Feb 2026",
         order: 2,
         title: "Jalsah Mudzakarah: Pembahasan Kitab Kuning",
@@ -206,7 +206,7 @@ const defaultScheduleData = [
         status: "upcoming"
     },
     {
-        id: 3,
+        id: "3",
         date: "18 Feb 2026",
         order: 3,
         title: "Mudzakarah Santri: Review Materi Pekanan",
@@ -216,7 +216,7 @@ const defaultScheduleData = [
         status: "upcoming"
     },
     {
-        id: 4,
+        id: "4",
         date: "25 Feb 2026",
         order: 4,
         title: "Presentasi: Manajemen Kesehatan Mental Muslim",
@@ -226,7 +226,7 @@ const defaultScheduleData = [
         status: "upcoming"
     },
     {
-        id: 5,
+        id: "5",
         date: "20 Jan 2026",
         order: 5,
         title: "Jalsah Mudzakarah: Adab Menuntut Ilmu",
@@ -236,7 +236,7 @@ const defaultScheduleData = [
         status: "completed"
     },
     {
-        id: 6,
+        id: "6",
         date: "15 Jan 2026",
         order: 6,
         title: "Mudzakarah Santri: Hafalan Doa Harian",
@@ -539,7 +539,7 @@ function saveMaterial(e) {
     const expertise = presenter.expertises[expertiseIndex];
 
     const formData = {
-        id: document.getElementById('materialId').value || Date.now(),
+        id: document.getElementById('materialId').value || (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString()),
         title: document.getElementById('materialTitle').value.trim(),
         category: document.getElementById('materialCategory').value.trim(),
         date: document.getElementById('materialDate').value,
@@ -1153,7 +1153,7 @@ async function saveSchedule(e) {
         }
 
         const newSchedule = {
-            id: idVal ? parseInt(idVal, 10) : Date.now(),
+            id: idVal || (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString()),
             date: dateVal,
             time: timeVal,
             order: parseInt(orderVal, 10) || 1, // Store as number
@@ -1329,6 +1329,11 @@ const USERS_CREDENTIALS = [
         username: 'fikri',
         password: 'fikri123',
         role: 'admin' // Also full access for testing
+    },
+    {
+        username: 'Admin2',
+        password: 'wkwk',
+        role: 'admin'
     },
     {
         username: 'pengelola',

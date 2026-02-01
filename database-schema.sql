@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS materials (
 -- TABLE: schedules
 -- ==========================================
 CREATE TABLE IF NOT EXISTS schedules (
-    id BIGINT PRIMARY KEY, -- Using BIGINT for JS Date.now() timestamps
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     presenter_id UUID REFERENCES presenters(id) ON DELETE SET NULL,
     presenter VARCHAR(255), -- Support for direct name string
     title VARCHAR(500) NOT NULL,
