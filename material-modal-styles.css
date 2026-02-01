@@ -6,6 +6,33 @@
     /* Increased gap between form elements */
 }
 
+/* Ensure consistent styling for all form inputs */
+.material-form .form-group textarea,
+.material-form .form-group select {
+    padding: 14px;
+    font-size: var(--text-base);
+    font-family: var(--font);
+    background: var(--bg);
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    color: var(--text);
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.material-form .form-group textarea:focus,
+.material-form .form-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+}
+
+.material-form .form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
 .form-actions {
     display: flex;
     gap: 12px;
@@ -90,4 +117,36 @@ body.edit-mode-active .material-card-actions {
 .btn-edit-material:active,
 .btn-delete-material:active {
     transform: scale(0.96);
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 500px) {
+    .material-form {
+        gap: 20px;
+    }
+
+    .material-form .form-group textarea,
+    .material-form .form-group select,
+    .material-form .form-group input {
+        font-size: 15px;
+        /* Prevents iOS zoom */
+        min-height: 44px;
+    }
+
+    .material-form .form-group textarea {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 400px) {
+    .material-form .form-group textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        padding: 12px;
+        font-size: 15px;
+    }
 }
