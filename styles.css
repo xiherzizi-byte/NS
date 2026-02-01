@@ -1,6 +1,6 @@
 /* ==========================================
-   NONGKRONG SEHAT - MODERN 2026
-   Simple, Clean, Trendy
+   KHAZANATUL 'ILM - MODERN 2026
+   Classy, Sophisticated, Meaningful 
    ========================================== */
 
 :root {
@@ -1618,4 +1618,100 @@ body.user-is-mode-preview .schedule-reorder,
 body.user-is-mode-preview .btn-edit-schedule,
 body.user-is-mode-preview .btn-delete-schedule {
     display: none !important;
+}
+
+/* Expertise Switcher & Pills */
+.expertise-switcher {
+    margin-top: 16px;
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.expertise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.expertise-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.btn-toggle-expertise {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.expertise-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.expertise-pill {
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    background: white;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.expertise-pill.active {
+    background: linear-gradient(135deg, var(--accent), #3fb890);
+    color: white;
+    border-color: var(--accent);
+}
+
+.expertise-pill.hidden {
+    display: none;
+}
+
+.btn-add-expertise {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: white;
+    border: 2px dashed var(--accent);
+    color: var(--accent);
+    display: none;
+    /* Only show in edit mode */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 20px;
+    padding: 0;
+}
+
+body.edit-mode-active .btn-add-expertise {
+    display: flex;
+}
+
+.btn-add-expertise:hover {
+    background: var(--accent);
+    color: white;
+    border-style: solid;
+}
+
+.expertise-single {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

@@ -37,14 +37,16 @@ CREATE TABLE IF NOT EXISTS materials (
 -- TABLE: schedules
 -- ==========================================
 CREATE TABLE IF NOT EXISTS schedules (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id BIGINT PRIMARY KEY, -- Using BIGINT for JS Date.now() timestamps
     presenter_id UUID REFERENCES presenters(id) ON DELETE SET NULL,
+    presenter VARCHAR(255), -- Support for direct name string
     title VARCHAR(500) NOT NULL,
-    type VARCHAR(50) DEFAULT 'regular', -- 'regular', 'jalsah', 'workshop', etc.
+    type VARCHAR(50) DEFAULT 'regular',
     location VARCHAR(255),
     date DATE NOT NULL,
-    time TIME,
-    status VARCHAR(20) DEFAULT 'upcoming', -- 'upcoming', 'completed', 'cancelled'
+    time VARCHAR(50), -- Changed to VARCHAR for "Ba'da Isya"
+    "order" INTEGER DEFAULT 1, -- Added for custom sorting
+    status VARCHAR(20) DEFAULT 'upcoming',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

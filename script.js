@@ -1757,7 +1757,7 @@ document.head.appendChild(style);
 // INITIALIZATION
 // ==========================================
 function init() {
-    console.log('🌿 Nongkrong SEHAT initialized');
+    console.log('📚 Khazanatul \'Ilm initialized');
 
     // Load saved data
     loadPresentersData();
