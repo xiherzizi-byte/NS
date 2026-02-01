@@ -449,7 +449,7 @@ function renderPresentersList() {
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                          </svg>
-                         ${totalMaterials} Arsip
+                         ${totalMaterials} Kajian
                     </span>
                 </div>
             </div>
@@ -491,13 +491,13 @@ function openMaterialModal(mode, presenter, expertiseIndex, material = null, mat
     const modalDescription = document.getElementById('materialModalDescription');
 
     if (mode === 'add') {
-        modalTitle.textContent = 'Tambah ke Arsip';
-        modalDescription.textContent = `Arsip pengetahuan baru dalam bidang "${expertise.name}"`;
+        modalTitle.textContent = 'Tambah Kajian Baru';
+        modalDescription.textContent = `Bagikan kajian baru dalam bidang "${expertise.name}"`;
         materialForm.reset();
         document.getElementById('materialId').value = '';
     } else {
-        modalTitle.textContent = 'Edit Arsip';
-        modalDescription.textContent = `Perbarui arsip pengetahuan dalam bidang "${expertise.name}"`;
+        modalTitle.textContent = 'Edit Kajian';
+        modalDescription.textContent = `Perbarui kajian pengetahuan dalam bidang "${expertise.name}"`;
 
         // Fill form with existing data
         document.getElementById('materialId').value = material.id || '';
@@ -549,11 +549,11 @@ function saveMaterial(e) {
     if (currentMaterialMode === 'add') {
         // Add new material
         expertise.materials.unshift(formData); // Add to beginning (latest first)
-        alert('✅ Arsip Pengetahuan berhasil ditambahkan!');
+        alert('✅ Kajian Pengetahuan berhasil ditambahkan!');
     } else {
         // Edit existing material
         expertise.materials[materialIndex] = formData;
-        alert('✅ Arsip Pengetahuan berhasil diperbarui!');
+        alert('✅ Kajian Pengetahuan berhasil diperbarui!');
     }
 
     // Save to localStorage
@@ -580,7 +580,7 @@ function deleteMaterial(presenter, expertiseIndex, materialIndex, materialTitle)
     // Save to localStorage
     savePresentersData();
 
-    alert('✅ Arsip Pengetahuan berhasil dihapus!');
+    alert('✅ Kajian Pengetahuan berhasil dihapus!');
 
     // Refresh view
     renderPresenterDetailContent(presenter, expertiseIndex);
@@ -667,7 +667,7 @@ function renderPresenterDetailContent(presenter, expertiseIndex) {
             <div class="presenter-avatar-large" style="background: ${presenter.avatarColor};">${getInitial(presenter.name)}</div>
             <div>
                 <h2 class="presenter-name-large">${presenter.name}</h2>
-                <p class="presenter-materials-count">${totalMaterials} Arsip</p>
+                <p class="presenter-materials-count">${totalMaterials} Kajian</p>
             </div>
         </div>
         
@@ -782,7 +782,7 @@ function renderPresenterDetailContent(presenter, expertiseIndex) {
 
     // Render materials for current expertise
     if (currentExpertise.materials.length === 0) {
-        materialsList.innerHTML = `<div class="empty-state" style="padding: 40px; text-align: center; color: var(--text-light);">Belum ada arsip pengetahuan di bidang ini.</div>`;
+        materialsList.innerHTML = `<div class="empty-state" style="padding: 40px; text-align: center; color: var(--text-light);">Belum ada kajian pengetahuan di bidang ini.</div>`;
         return;
     }
     materialsList.innerHTML = '';
@@ -1002,7 +1002,6 @@ function renderSchedule() {
                     ${item.status === 'upcoming' ? 'Akan Datang' : 'Selesai'}
                 </span>
             </div>
-            
             <h3 class="schedule-title">${item.title}</h3>
             
             <div class="schedule-info-group">
