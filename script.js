@@ -449,7 +449,7 @@ function renderPresentersList() {
                             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                          </svg>
-                         ${totalMaterials} Kajian
+                         ${totalMaterials} Arsip
                     </span>
                 </div>
             </div>
@@ -527,8 +527,8 @@ function closeMaterialModal() {
 }
 
 // Save material (add or edit)
-function saveMaterial(e) {
-    e.preventDefault();
+async function saveMaterial(e) {
+    if (e) e.preventDefault();
 
     if (!currentUser) {
         alert('❌ Anda harus login untuk melakukan ini!');
@@ -546,14 +546,42 @@ function saveMaterial(e) {
         content: document.getElementById('materialContent').value.trim()
     };
 
+    // Prepare data for Supabase
+    const supabaseData = {
+        id: formData.id,
+        presenter_id: presenter.db_id || null, // We'll need to handle db_ids for presenters
+        title: formData.title,
+        category: formData.category,
+        date: formData.date,
+        content: formData.content
+    };
+
+    // Try to save to Supabase
+    const supabase = window.supabaseClient?.get();
+    if (supabase && presenter.db_id) {
+        try {
+            if (currentMaterialMode === 'add') {
+                const { error } = await supabase.from('materials').insert([supabaseData]);
+                if (error) throw error;
+            } else {
+                const { error } = await supabase.from('materials').update(supabaseData).eq('id', formData.id);
+                if (error) throw error;
+            }
+            console.log('✅ Material synced to Supabase');
+        } catch (err) {
+            console.error('Supabase Sync Error:', err);
+            // We still continue to save locally even if sync fails
+        }
+    }
+
     if (currentMaterialMode === 'add') {
         // Add new material
         expertise.materials.unshift(formData); // Add to beginning (latest first)
-        alert('✅ Kajian Pengetahuan berhasil ditambahkan!');
+        alert('✅ Arsip Pengetahuan berhasil ditambahkan!');
     } else {
         // Edit existing material
         expertise.materials[materialIndex] = formData;
-        alert('✅ Kajian Pengetahuan berhasil diperbarui!');
+        alert('✅ Arsip Pengetahuan berhasil diperbarui!');
     }
 
     // Save to localStorage
@@ -565,7 +593,7 @@ function saveMaterial(e) {
 }
 
 // Delete material
-function deleteMaterial(presenter, expertiseIndex, materialIndex, materialTitle) {
+async function deleteMaterial(presenter, expertiseIndex, materialIndex, materialTitle) {
     if (!currentUser) {
         alert('❌ Anda harus login untuk melakukan ini!');
         return;
@@ -575,12 +603,26 @@ function deleteMaterial(presenter, expertiseIndex, materialIndex, materialTitle)
     if (!confirmDelete) return;
 
     const expertise = presenter.expertises[expertiseIndex];
+    const materialId = expertise.materials[materialIndex].id;
+
+    // Try to delete from Supabase
+    const supabase = window.supabaseClient?.get();
+    if (supabase) {
+        try {
+            const { error } = await supabase.from('materials').delete().eq('id', materialId);
+            if (error) throw error;
+            console.log('✅ Material deleted from Supabase');
+        } catch (err) {
+            console.error('Supabase Delete Error:', err);
+        }
+    }
+
     expertise.materials.splice(materialIndex, 1);
 
     // Save to localStorage
     savePresentersData();
 
-    alert('✅ Kajian Pengetahuan berhasil dihapus!');
+    alert('✅ Arsip Pengetahuan berhasil dihapus!');
 
     // Refresh view
     renderPresenterDetailContent(presenter, expertiseIndex);
@@ -667,7 +709,7 @@ function renderPresenterDetailContent(presenter, expertiseIndex) {
             <div class="presenter-avatar-large" style="background: ${presenter.avatarColor};">${getInitial(presenter.name)}</div>
             <div>
                 <h2 class="presenter-name-large">${presenter.name}</h2>
-                <p class="presenter-materials-count">${totalMaterials} Kajian</p>
+                <p class="presenter-materials-count">${totalMaterials} Arsip</p>
             </div>
         </div>
         
@@ -1759,20 +1801,88 @@ style.textContent = `
 document.head.appendChild(style);
 
 // ==========================================
+// DATA SYNCHRONIZATION (Supabase)
+// ==========================================
+async function syncAllDataFromSupabase() {
+    const supabase = window.supabaseClient?.get();
+    if (!supabase) return;
+
+    try {
+        console.log('🔄 Syncing data from Supabase...');
+
+        // 1. Sync Schedules
+        const { data: remoteSchedules, error: scheduleError } = await supabase
+            .from('schedules')
+            .select('*')
+            .order('order', { ascending: true });
+
+        if (!scheduleError && remoteSchedules) {
+            scheduleData = remoteSchedules;
+            localStorage.setItem('nongkrong_sehat_schedule', JSON.stringify(scheduleData));
+            renderSchedule();
+            console.log('✅ Schedules synced');
+        }
+
+        // 2. Sync Presenters & Materials
+        // Note: For now we'll match by name or ID to keep local mock structure
+        const { data: remotePresenters, error: presenterError } = await supabase.from('presenters').select('*');
+        if (!presenterError && remotePresenters) {
+            remotePresenters.forEach(rp => {
+                const presenter = presentersData.find(p => p.name.toLowerCase() === rp.name.toLowerCase() || p.id === rp.id);
+                if (presenter) {
+                    presenter.db_id = rp.id; // Map UUID for future sync calls
+                    presenter.avatarColor = rp.avatar_color || presenter.avatarColor;
+                }
+            });
+        }
+
+        const { data: remoteMaterials, error: materialError } = await supabase.from('materials').select('*');
+        if (!materialError && remoteMaterials) {
+            // Organize remote materials back into presentersData structure
+            remoteMaterials.forEach(rm => {
+                const presenter = presentersData.find(p => p.db_id === rm.presenter_id);
+                if (presenter && presenter.expertises && presenter.expertises.length > 0) {
+                    // Match with first expertise for now, or match by category if needed
+                    const expertise = presenter.expertises[0];
+
+                    // Avoid duplicates
+                    const exists = expertise.materials.some(m => m.id === rm.id);
+                    if (!exists) {
+                        expertise.materials.unshift({
+                            id: rm.id,
+                            title: rm.title,
+                            category: rm.category,
+                            date: rm.date,
+                            content: rm.content
+                        });
+                    }
+                }
+            });
+            renderPresentersList();
+            console.log('✅ Materials synced');
+        }
+
+    } catch (err) {
+        console.error('Initial Sync Failed:', err);
+    }
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
-function init() {
+async function init() {
     console.log('📚 Khazanatul \'Ilm initialized');
 
-    // Load saved data
+    // Load saved data (local first for speed)
     loadPresentersData();
-
-    // Check login state
     checkLoginState();
 
-    // Render initial data
+    // Initial render
     renderPresentersList();
     renderSchedule();
+
+    // BACKGROUND SYNC: Fetch latest from Supabase
+    syncAllDataFromSupabase();
 
     // Setup material modal listeners
     const materialModal = document.getElementById('materialModal');
