@@ -1810,56 +1810,87 @@ async function syncAllDataFromSupabase() {
     try {
         console.log('🔄 Syncing data from Supabase...');
 
-        // 1. Sync Schedules
+        // 1. Sync Schedules (Strict Replace)
         const { data: remoteSchedules, error: scheduleError } = await supabase
             .from('schedules')
             .select('*')
             .order('order', { ascending: true });
 
-        if (!scheduleError && remoteSchedules) {
+        if (!scheduleError && remoteSchedules && remoteSchedules.length > 0) {
             scheduleData = remoteSchedules;
             localStorage.setItem('nongkrong_sehat_schedule', JSON.stringify(scheduleData));
             renderSchedule();
-            console.log('✅ Schedules synced');
+            console.log('✅ Schedules synced (Remote wins)');
         }
 
-        // 2. Sync Presenters & Materials
-        // Note: For now we'll match by name or ID to keep local mock structure
+        // 2. Sync Presenters Mapping
         const { data: remotePresenters, error: presenterError } = await supabase.from('presenters').select('*');
         if (!presenterError && remotePresenters) {
             remotePresenters.forEach(rp => {
                 const presenter = presentersData.find(p => p.name.toLowerCase() === rp.name.toLowerCase() || p.id === rp.id);
                 if (presenter) {
-                    presenter.db_id = rp.id; // Map UUID for future sync calls
+                    presenter.db_id = rp.id;
                     presenter.avatarColor = rp.avatar_color || presenter.avatarColor;
                 }
             });
         }
 
-        const { data: remoteMaterials, error: materialError } = await supabase.from('materials').select('*');
-        if (!materialError && remoteMaterials) {
-            // Organize remote materials back into presentersData structure
-            remoteMaterials.forEach(rm => {
-                const presenter = presentersData.find(p => p.db_id === rm.presenter_id);
-                if (presenter && presenter.expertises && presenter.expertises.length > 0) {
-                    // Match with first expertise for now, or match by category if needed
-                    const expertise = presenter.expertises[0];
+        // 3. Sync Materials (Arsip)
+        const { data: remoteMaterials, error: materialError } = await supabase.from('materials').select('*').order('date', { ascending: false });
 
-                    // Avoid duplicates
-                    const exists = expertise.materials.some(m => m.id === rm.id);
-                    if (!exists) {
-                        expertise.materials.unshift({
-                            id: rm.id,
-                            title: rm.title,
-                            category: rm.category,
-                            date: rm.date,
-                            content: rm.content
+        if (!materialError && remoteMaterials) {
+            // Group remote materials by presenter_id
+            const materialsByPresenter = {};
+            remoteMaterials.forEach(rm => {
+                if (!materialsByPresenter[rm.presenter_id]) {
+                    materialsByPresenter[rm.presenter_id] = [];
+                }
+                materialsByPresenter[rm.presenter_id].push({
+                    id: rm.id,
+                    title: rm.title,
+                    category: rm.category,
+                    date: rm.date,
+                    content: rm.content
+                });
+            });
+
+            // Update local presenters with remote data
+            let anyChanges = false;
+            presentersData.forEach(presenter => {
+                const dbId = presenter.db_id;
+
+                // If this presenter has materials in Cloud, Cloud data REPLACES local mock data
+                if (dbId && materialsByPresenter[dbId]) {
+                    if (presenter.expertises && presenter.expertises.length > 0) {
+                        // For simplicity, we sync to the first expertise
+                        presenter.expertises[0].materials = materialsByPresenter[dbId];
+                        anyChanges = true;
+                    }
+                }
+                // MIGRATION LOGIC: If Admin has local materials but NOT in cloud, upload them
+                else if (currentUser?.role === 'admin' && dbId) {
+                    const localMaterials = presenter.expertises?.[0]?.materials || [];
+                    if (localMaterials.length > 0) {
+                        console.log(`📤 Migrating ${localMaterials.length} materials for ${presenter.name} to Cloud...`);
+                        localMaterials.forEach(async (lm) => {
+                            await supabase.from('materials').insert([{
+                                id: lm.id || crypto.randomUUID(),
+                                presenter_id: dbId,
+                                title: lm.title,
+                                category: lm.category,
+                                date: lm.date,
+                                content: lm.content || ''
+                            }]);
                         });
                     }
                 }
             });
-            renderPresentersList();
-            console.log('✅ Materials synced');
+
+            if (anyChanges) {
+                savePresentersData();
+                renderPresentersList();
+                console.log('✅ Materials synced & replaced local mock data');
+            }
         }
 
     } catch (err) {
