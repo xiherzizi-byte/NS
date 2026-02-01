@@ -928,8 +928,12 @@ body {
     border-radius: var(--radius);
     width: 95%;
     max-width: 540px;
+    max-height: 85vh;
+    /* Prevent modal from being taller than screen */
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    overflow-y: auto;
+    /* Enable scrolling for long content */
+    overflow-x: hidden;
     padding: 24px;
     /* Reduced for mobile */
     z-index: 201;
@@ -1002,9 +1006,9 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 32px;
-    /* Significantly increased for more space between fields */
+    gap: 8px;
+    margin-bottom: 18px;
+    /* Reduced for mobile fit */
 }
 
 .form-group label {

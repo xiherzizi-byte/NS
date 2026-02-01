@@ -2,8 +2,8 @@
 .material-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    /* Increased gap between form elements */
+    gap: 16px;
+    /* Compact gap for mobile */
 }
 
 /* Ensure consistent styling for all form inputs */
@@ -122,7 +122,7 @@ body.edit-mode-active .material-card-actions {
 /* Mobile Responsive Adjustments */
 @media (max-width: 500px) {
     .material-form {
-        gap: 20px;
+        gap: 14px;
     }
 
     .material-form .form-group textarea,
