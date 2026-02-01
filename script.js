@@ -1239,7 +1239,7 @@ async function saveSchedule(e) {
         if (currentScheduleMode === 'add') {
             scheduleData.push(newSchedule);
         } else {
-            const index = scheduleData.findIndex(s => Number(s.id) === Number(newSchedule.id));
+            const index = scheduleData.findIndex(s => String(s.id) === String(newSchedule.id));
             if (index !== -1) {
                 scheduleData[index] = newSchedule;
             } else {
@@ -1286,7 +1286,7 @@ async function saveSchedule(e) {
 }
 
 function moveSchedule(id, direction) {
-    const index = scheduleData.findIndex(s => Number(s.id) === Number(id));
+    const index = scheduleData.findIndex(s => String(s.id) === String(id));
     if (index === -1) return;
 
     const newIndex = direction === 'up' ? index - 1 : index + 1;
@@ -1303,6 +1303,15 @@ function moveSchedule(id, direction) {
     });
 
     localStorage.setItem('nongkrong_sehat_schedule', JSON.stringify(scheduleData));
+
+    // Sync new orders to Supabase
+    const supabase = window.supabaseClient?.get();
+    if (supabase) {
+        scheduleData.forEach(async (item) => {
+            await supabase.from('schedules').update({ order: item.order }).eq('id', item.id);
+        });
+    }
+
     renderSchedule();
 }
 
