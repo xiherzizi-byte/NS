@@ -1823,16 +1823,30 @@ async function syncAllDataFromSupabase() {
             console.log('✅ Schedules synced (Remote wins)');
         }
 
-        // 2. Sync Presenters Mapping
+        // 2. Sync Presenters Mapping & Creation
         const { data: remotePresenters, error: presenterError } = await supabase.from('presenters').select('*');
-        if (!presenterError && remotePresenters) {
-            remotePresenters.forEach(rp => {
-                const presenter = presentersData.find(p => p.name.toLowerCase() === rp.name.toLowerCase() || p.id === rp.id);
-                if (presenter) {
-                    presenter.db_id = rp.id;
-                    presenter.avatarColor = rp.avatar_color || presenter.avatarColor;
+        if (!presenterError) {
+            for (const presenter of presentersData) {
+                const remoteMatch = remotePresenters.find(rp => rp.name.toLowerCase() === presenter.name.toLowerCase() || rp.id === presenter.id);
+
+                if (remoteMatch) {
+                    presenter.db_id = remoteMatch.id;
+                    presenter.avatarColor = remoteMatch.avatar_color || presenter.avatarColor;
+                } else if (currentUser?.role === 'admin') {
+                    // MIGRATION: Create missing presenter in Supabase
+                    console.log(`👤 Creating presenter ${presenter.name} in Cloud...`);
+                    const { data: newP, error: createError } = await supabase.from('presenters').insert([{
+                        name: presenter.name,
+                        expertise: getPrimaryRole(presenter),
+                        avatar_color: presenter.avatarColor
+                    }]).select();
+
+                    if (!createError && newP && newP[0]) {
+                        presenter.db_id = newP[0].id;
+                        console.log(`✅ Presenter ${presenter.name} created with ID: ${presenter.db_id}`);
+                    }
                 }
-            });
+            }
         }
 
         // 3. Sync Materials (Arsip)
