@@ -26,24 +26,24 @@
     --text-light: #a3a3a3;
     /* Light gray */
 
-    /* Mobile-First Typography - Maximum density */
+    /* Mobile-First Typography - Microscopic density */
     --font: 'Inter', -apple-system, sans-serif;
-    --text-xl: 14px;
-    --text-lg: 13px;
-    --text-md: 11px;
-    --text-base: 10px;
-    --text-sm: 9px;
+    --text-xl: 12px;
+    --text-lg: 11px;
+    --text-md: 10px;
+    --text-base: 9px;
+    --text-sm: 8px;
 
-    /* Maximum Compact Mobile Spacing */
-    --gap: 4px;
-    --gap-lg: 6px;
-    --pad: 6px;
-    --pad-lg: 8px;
+    /* Microscopic Mobile Spacing */
+    --gap: 2px;
+    --gap-lg: 4px;
+    --pad: 4px;
+    --pad-lg: 6px;
 
     /* Modern Elements */
-    --radius: 8px;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    --nav-height: 50px;
+    --radius: 6px;
+    --shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    --nav-height: 44px;
 }
 
 * {
@@ -73,8 +73,8 @@ body {
 
 .main {
     flex: 1;
-    padding-top: 4px;
-    padding-bottom: 55px;
+    padding-top: 2px;
+    padding-bottom: 48px;
     background: var(--bg);
 }
 
@@ -83,8 +83,8 @@ body {
    ========================================== */
 .header {
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    padding: 5px 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    padding: 3px 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -107,10 +107,10 @@ body {
 }
 
 .ns-logo-img {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-    border-radius: 6px;
+    border-radius: 4px;
     background: white;
     padding: 1px;
 }
@@ -123,8 +123,8 @@ body {
 }
 
 .btn-login {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
     border-radius: 100px;
     background: white;
     border: none;
@@ -138,8 +138,8 @@ body {
 }
 
 .btn-login svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 .btn-login:active {
@@ -176,21 +176,21 @@ body {
 
 /* Modern Page Header */
 .page-header {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     padding-top: 0;
 }
 
 .page-title {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 1px 0;
+    margin: 0;
     letter-spacing: -0.03em;
-    line-height: 1.1;
+    line-height: 1;
 }
 
 .page-subtitle {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--text-secondary);
     margin: 0;
     font-weight: 500;
@@ -565,7 +565,7 @@ body {
 .schedule-item {
     background: var(--white);
     border-radius: var(--radius);
-    padding: 6px;
+    padding: 4px;
     box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
@@ -578,7 +578,7 @@ body {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
+    width: 3px;
     background: linear-gradient(180deg, var(--accent), #3fb890);
     z-index: 1;
 }
@@ -641,7 +641,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .schedule-date-time {
@@ -651,36 +651,36 @@ body {
 }
 
 .s-date {
-    font-size: 10px;
+    font-size: 9px;
     color: var(--accent);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .s-time {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--text-secondary);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .schedule-title {
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 800;
     color: var(--text);
-    margin: 1px 0 4px 0;
+    margin: 1px 0 2px 0;
     letter-spacing: -0.02em;
-    line-height: 1.15;
+    line-height: 1.1;
 }
 
 .schedule-info-group {
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    padding: 4px;
+    gap: 2px;
+    padding: 3px;
     background: rgba(0, 0, 0, 0.02);
-    border-radius: 6px;
-    margin-bottom: 2px;
+    border-radius: 4px;
+    margin-bottom: 1px;
 }
 
 .schedule-meta {
@@ -1025,15 +1025,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1px;
-    padding: 5px 8px;
+    gap: 0px;
+    padding: 3px 5px;
     background: transparent;
     border: none;
     color: var(--text-light);
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 4px;
     transition: opacity 0.1s ease;
-    min-width: 50px;
+    min-width: 44px;
 }
 
 .nav-item.active {
@@ -1042,12 +1042,12 @@ body {
 }
 
 .nav-icon {
-    width: 19px;
-    height: 19px;
+    width: 16px;
+    height: 16px;
 }
 
 .nav-label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 600;
     letter-spacing: 0;
 }
