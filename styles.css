@@ -565,7 +565,7 @@ body {
 .schedule-item {
     background: var(--white);
     border-radius: var(--radius);
-    padding: 12px;
+    padding: 8px;
     box-shadow: var(--shadow);
     position: relative;
     overflow: hidden;
@@ -641,7 +641,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .schedule-date-time {
@@ -651,34 +651,34 @@ body {
 }
 
 .s-date {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--accent);
     font-weight: 700;
 }
 
 .s-time {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-secondary);
     font-weight: 500;
 }
 
 .schedule-title {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 800;
     color: var(--text);
-    margin: 4px 0 10px 0;
+    margin: 2px 0 6px 0;
     letter-spacing: -0.02em;
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
 .schedule-info-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 10px;
+    gap: 4px;
+    padding: 6px;
     background: rgba(0, 0, 0, 0.02);
-    border-radius: 10px;
-    margin-bottom: 4px;
+    border-radius: 8px;
+    margin-bottom: 3px;
 }
 
 .schedule-meta {
@@ -689,51 +689,51 @@ body {
 }
 
 .schedule-presenter {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--text-secondary);
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 }
 
 .schedule-location {
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 500;
     color: var(--text-light);
     display: flex;
     align-items: center;
-    gap: 4px;
-    line-height: 1.4;
+    gap: 3px;
+    line-height: 1.3;
 }
 
 .schedule-presenter svg,
 .schedule-location svg {
     opacity: 0.6;
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 .schedule-type {
     display: inline-flex;
-    padding: 2px 6px;
-    border-radius: 5px;
-    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 8px;
     font-weight: 700;
     background: rgba(30, 77, 64, 0.08);
     color: var(--primary);
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    letter-spacing: 0;
 }
 
 .schedule-status {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px;
+    gap: 3px;
+    padding: 3px 8px;
     border-radius: 100px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     background: rgba(82, 211, 168, 0.1);
     color: var(--accent);
@@ -746,8 +746,8 @@ body {
 
 .schedule-status::before {
     content: "";
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: currentColor;
 }
@@ -757,7 +757,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
 .schedule-actions {
@@ -766,23 +766,27 @@ body {
 }
 
 .btn-action-sm {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: opacity 0.1s;
     color: var(--text-secondary);
 }
 
-.btn-action-sm:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.btn-action-sm svg {
+    width: 14px;
+    height: 14px;
+}
+
+.btn-action-sm:active {
+    opacity: 0.6;
 }
 
 .btn-edit-schedule:hover {
@@ -800,9 +804,9 @@ body {
 .schedule-tabs {
     display: flex;
     overflow-x: auto;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
     scrollbar-width: none;
 }
 
@@ -811,29 +815,29 @@ body {
 }
 
 .schedule-tab-btn {
-    padding: 10px 20px;
+    padding: 7px 14px;
     border-radius: 100px;
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.05);
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: opacity 0.1s;
 }
 
 .schedule-tab-btn.active {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgba(30, 77, 64, 0.2);
+    box-shadow: 0 2px 8px rgba(30, 77, 64, 0.2);
 }
 
 .schedule-cards-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 8px;
 }
 
 @media (min-width: 768px) {
