@@ -26,24 +26,24 @@
     --text-light: #a3a3a3;
     /* Light gray */
 
-    /* Mobile-First Typography - Optimized for mobile */
+    /* Mobile-First Typography - Very compact for mobile */
     --font: 'Inter', -apple-system, sans-serif;
-    --text-xl: 20px;
-    --text-lg: 16px;
-    --text-md: 14px;
-    --text-base: 13px;
-    --text-sm: 12px;
+    --text-xl: 18px;
+    --text-lg: 15px;
+    --text-md: 13px;
+    --text-base: 12px;
+    --text-sm: 11px;
 
-    /* Compact Mobile Spacing */
-    --gap: 12px;
-    --gap-lg: 16px;
-    --pad: 12px;
-    --pad-lg: 16px;
+    /* Very Compact Mobile Spacing */
+    --gap: 8px;
+    --gap-lg: 12px;
+    --pad: 10px;
+    --pad-lg: 12px;
 
     /* Modern Elements */
-    --radius: 14px;
-    --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --nav-height: 64px;
+    --radius: 12px;
+    --shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    --nav-height: 56px;
 }
 
 * {
@@ -73,8 +73,8 @@ body {
 
 .main {
     flex: 1;
-    padding-top: 16px;
-    padding-bottom: 80px;
+    padding-top: 12px;
+    padding-bottom: 70px;
     background: var(--bg);
 }
 
@@ -83,8 +83,8 @@ body {
    ========================================== */
 .header {
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    padding: 10px 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -103,29 +103,28 @@ body {
 .logo-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .ns-logo-img {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 7px;
     background: white;
-    /* Give it a clean white base if it's not transparent */
     padding: 2px;
 }
 
 .app-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: white;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .btn-login {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 100px;
     background: white;
     border: none;
@@ -135,12 +134,12 @@ body {
     justify-content: center;
     box-shadow: var(--shadow);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.15s ease;
 }
 
 .btn-login svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .btn-login:active {
@@ -178,19 +177,20 @@ body {
 /* Modern Page Header */
 .page-header {
     margin-bottom: var(--gap-lg);
-    padding-top: 4px;
+    padding-top: 0;
 }
 
 .page-title {
-    font-size: var(--text-lg);
+    font-size: 17px;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
     letter-spacing: -0.03em;
+    line-height: 1.3;
 }
 
 .page-subtitle {
-    font-size: var(--text-sm);
+    font-size: 11px;
     color: var(--text-secondary);
     margin: 0;
     font-weight: 500;
@@ -206,12 +206,12 @@ body {
 /* Featured Latest Material */
 .featured-material {
     background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: var(--radius);
-    padding: var(--pad);
+    padding: 10px;
     box-shadow:
-        0 4px 16px rgba(0, 0, 0, 0.06),
+        0 2px 8px rgba(0, 0, 0, 0.05),
         inset 0 1px 1px rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.5);
     position: relative;
@@ -243,20 +243,20 @@ body {
 }
 
 .featured-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--primary);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
 .featured-label svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 .featured-label svg {
@@ -264,23 +264,23 @@ body {
 }
 
 .featured-title {
-    font-size: var(--text-md);
+    font-size: 13px;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.35;
     letter-spacing: -0.02em;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     color: var(--text);
 }
 
 .featured-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .featured-presenter {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-secondary);
 }
@@ -288,25 +288,24 @@ body {
 
 /* Section Header */
 .section-header {
-    margin: var(--gap-lg) 0 12px 0;
+    margin: var(--gap-lg) 0 8px 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     color: var(--primary);
 }
 
 .section-header h3 {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .section-header svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .section-header svg {
@@ -317,7 +316,7 @@ body {
 .presenters-list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
 }
 
 @media (min-width: 768px) {
@@ -329,35 +328,33 @@ body {
 .presenter-item {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     background: var(--white);
-    padding: 14px;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+    padding: 11px;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-.presenter-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
-    border-color: var(--accent);
+.presenter-item:active {
+    transform: scale(0.98);
 }
 
 .presenter-item-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: white;
     flex-shrink: 0;
     letter-spacing: -0.02em;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .presenter-item-info {
@@ -365,25 +362,25 @@ body {
 }
 
 .presenter-item-name {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text);
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
     letter-spacing: -0.02em;
 }
 
 .presenter-meta-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
 }
 
 .presenter-role-tag {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--primary);
     background: rgba(82, 211, 168, 0.15);
-    padding: 2px 6px;
-    border-radius: 4px;
+    padding: 1px 5px;
+    border-radius: 3px;
     font-weight: 700;
     width: fit-content;
     text-transform: uppercase;
@@ -391,17 +388,17 @@ body {
 }
 
 .presenter-material-badge {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-light);
     font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
 }
 
 .presenter-material-badge svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
 }
 
 .presenter-material-badge svg {
@@ -1016,35 +1013,35 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: 6px 10px;
+    gap: 1px;
+    padding: 5px 8px;
     background: transparent;
     border: none;
     color: var(--text-light);
     cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s;
-    min-width: 56px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    min-width: 50px;
 }
 
 .nav-item.active {
     color: var(--primary);
-    background: rgba(30, 77, 64, 0.1);
+    background: rgba(30, 77, 64, 0.08);
 }
 
 .nav-icon {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
 }
 
 .nav-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
 }
 
 .nav-item:active {
-    transform: scale(0.95);
+    transform: scale(0.96);
 }
 
 /* Modern Modal */
