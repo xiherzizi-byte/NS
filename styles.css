@@ -1020,7 +1020,7 @@ body {
     color: var(--text-light);
     cursor: pointer;
     border-radius: 6px;
-    transition: all 0.15s ease;
+    transition: opacity 0.1s ease;
     min-width: 50px;
 }
 
@@ -1041,7 +1041,7 @@ body {
 }
 
 .nav-item:active {
-    transform: scale(0.96);
+    opacity: 0.6;
 }
 
 /* Modern Modal */
